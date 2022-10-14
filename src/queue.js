@@ -20,12 +20,13 @@ class Queue {
   }
 
   getUnderlyingList() {
-    if (this.isEmpty()) {
+    return this.head;
+    /*    if (this.isEmpty()) {
       return null;
     } else {
       let temp = this.head;
       return temp;
-    }
+    }*/
     // throw new NotImplementedError("Not implemented");
     // remove line with error and write your code here
   }
