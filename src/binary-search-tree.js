@@ -8,59 +8,145 @@ const { Node } = require("../extensions/list-tree.js");
  */
 class BinarySearchTree {
   constructor() {
-    this.root = null;
+    this.myRoot = null;
   }
 
   root() {
-    return this.root != null ? this.root.data : null;
+    if (!this.myRoot) {
+      return null;
+    } else {
+      return this.myRoot;
+    }
+
+    //return this.root != null ? this.root.data : null;
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
   }
 
   add(data) {
-    if (this.root == null) {
-      this.root = new Node(data);
-    } else if (data < this.root.data) {
-      this.root.left = this.addBST(this.root.left, data);
-    } else {
-      this.root.right = this.addBST(this.root.right, data);
+    this.myRoot = addBT(this.myRoot, data);
+
+    function addBT(node, value) {
+      if (!node) {
+        return new Node(value);
+      }
+
+      if (node.value === value) {
+        return node;
+      }
+
+      if (value < node.value) {
+        node.left = addBT(node.left, value);
+      } else {
+        node.right = addBT(node.right, value);
+      }
+      return node;
+      /*
+      return value < node.value
+        ? (node.left = addBT(node.left, value))
+        : (node.right = addBT(node.right, value));
+    */
     }
   }
 
-  addBST(node, value) {
-    if (node == null) {
-      node = new Node(value);
-    } else if (value < node.value) {
-      node.left = this.addBST(node.left, value);
-    } else {
-      node.right = this.addBST(node.right, value);
+  has(data) {
+    return treeHas(this.myRoot, data);
+
+    function treeHas(node, value) {
+      if (!node) {
+        return false;
+      }
+      if (value === node.value) {
+        return true;
+      }
+      return value < node.value
+        ? treeHas(node.left, value)
+        : treeHas(node.right, value);
     }
-    return node;
   }
 
-  has(/* data */) {
-    //throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+  find(data) {
+    return findNode(this.myRoot, data);
+
+    function findNode(node, value) {
+      if (!node) {
+        return null;
+      }
+
+      if (node.value === value) {
+        return value;
+      }
+
+      if (value < node.value) {
+        node.left = findNode(node.left, value);
+      } else {
+        node.right = findNode(node.right, value);
+      }
+      return null;
+    }
   }
 
-  find(/* data */) {
-    //throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
-  }
+  remove(data) {
+    return removeNode(this.myRoot, data);
 
-  remove(/* data */) {
-    //throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+    function removeNode(node, value) {
+      if (!node) {
+        return null;
+      }
+
+      if (value < node.value) {
+        node.left = removeNode(node.left, value);
+        return node;
+      } else if (value > node.value) {
+        node.right = removeNode(node.right, value);
+        return node;
+      } else {
+        if (!node.left && !node.right) {
+          return null;
+        }
+
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+
+        let minRight = node.right;
+        while (minRight.left) {
+          minRight = minRight.left;
+        }
+        node.value = minRight.value;
+        node.right = removeNode(node.right, minRight.value);
+        return node;
+      }
+    }
   }
 
   min() {
-    //throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+    if (!this.myRoot) {
+      return;
+    }
+
+    let node = this.myRoot;
+    while (node.left) {
+      node = node.left;
+    }
+    return node.value;
   }
 
   max() {
-    //throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+    if (!this.myRoot) {
+      return;
+    }
+    let node = this.myRoot;
+    while (node.right) {
+      node = node.right;
+    }
+    return node.value;
   }
 }
 
