@@ -3,6 +3,7 @@ const { NotImplementedError } = require("../extensions/index.js");
 const { Node } = require("../extensions/list-tree.js");
 
 /**
+ * task link: https://github.com/rolling-scopes-school/tasks/tree/master/stage1/modules/data-structures
  * Implement simple binary search tree according to task description
  * using Node from extensions
  */
